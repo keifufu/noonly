@@ -1,0 +1,39 @@
+@import '../../../styles/common';
+@import '../../../styles/sizes';
+@import '../../../styles/fontSizes.scss';
+@import '../../../styles/space';
+@import '../../../styles/fontWeights.scss';
+
+.root {
+	min-height: 100vh;
+	overflow-y: scroll;
+	padding-inline: $space-8;
+	padding-top: $space-12;
+	padding-bottom: $space-12;
+
+	@include mobile {
+		padding-inline: unset;
+		padding-top: $space-3;
+		padding-bottom: $space-3;
+	}
+}
+
+.root-inner {
+	max-width: $sizes-md;
+	margin-inline: auto;
+}
+
+.heading {
+	text-align: center;
+	font-size: $fontSizes-4xl;
+	line-height: 1.2;
+	font-weight: $fontWeights-extrabold;
+}
+
+.text {
+	margin-top: $space-4;
+	margin-bottom: $space-8;
+	max-width: $sizes-md;
+	text-align: center;
+	font-weight: $fontWeights-semibold;
+}

@@ -1,0 +1,1 @@
+export const SET_INBOX_LOADING = 'SET_INBOX_LOADING'

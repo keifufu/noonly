@@ -1,0 +1,88 @@
+@import '../../../styles/common.scss';
+@import '../../../styles/colors.scss';
+@import '../../../styles/radius.scss';
+@import '../../../styles/shadows.scss';
+@import '../../../styles/space.scss';
+
+.root {
+	user-select: none;
+	border-radius: $rd-lg;
+	box-shadow: $shadow-base;
+
+	@include light {
+		background-color: white;
+	}
+
+	@include dark {
+		background-color: $gray-700;
+	}
+}
+
+.root-inner {
+	display: flex;
+	cursor: pointer;
+	transition: 'all 0.2s';
+	align-items: center;
+	padding-inline-start: $space-3;
+	padding-inline-end: $space-3;
+	padding-top: $space-2;
+	padding-bottom: $space-2;
+}
+
+.account-site {
+	cursor: text;
+	user-select: text;
+	flex: 1;
+	font-size: 16px;
+	font-weight: 600;
+	width: fit-content;
+
+	@include light {
+		color: black;
+	}
+
+	@include dark {
+		color: white;
+	}
+}
+
+.account-info {
+	cursor: text;
+	user-select: text;
+	width: fit-content;
+	flex: 1;
+	font-size: 16px;
+
+	@include light {
+		color: $gray-700;
+	}
+
+	@include dark {
+		color: $gray-300;
+	}
+}
+
+.collapsed-root {
+	padding-bottom: $space-3;
+	padding-inline-start: $space-4;
+	padding-inline-end: $space-4;
+}
+
+.collapsed-divider {
+	padding-top: $space-1;
+	margin-bottom: $space-2;
+}
+
+.note-container {
+	user-select: none;
+	margin-left: $space-3;
+	display: flex;
+	align-items: center;
+	flex: 1;
+	white-space: pre-wrap;
+}
+
+.textarea {
+	min-height: 40px;
+	resize: none;
+}

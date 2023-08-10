@@ -1,0 +1,32 @@
+@import 'styles/sizes.scss';
+@import 'styles/radius.scss';
+@import 'styles/colors.scss';
+
+.root {
+	position: relative;
+	width: $sizes-12;
+	display: flex;
+	align-items: center;
+}
+
+.skeleton {
+	opacity: 1;
+	border-radius: $rd-xl;
+	height: $sizes-12;
+	width: $sizes-12;
+	position: absolute;
+	transition: all linear 0.1s;
+}
+
+.skeleton-selected {
+	opacity: 0;
+}
+
+.img {
+	position: absolute;
+	height: $sizes-12;
+	width: $sizes-12;
+	border-radius: $rd-xl;
+	transition: all linear 0.1s;
+	object-fit: cover;
+}

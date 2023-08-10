@@ -1,0 +1,30 @@
+{
+	"compilerOptions": {
+		"target": "ES5",
+    "module": "CommonJS",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "moduleResolution": "node",
+    "lib": [
+      "ES2020",
+      "DOM"
+    ],
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": "./src",
+		"paths": {
+			"@library/*": ["./library/*"],
+			"@main/*": ["./main/*"],
+      "@routes/*": ["./main/routes/*"]
+		},
+    "typeRoots": [
+      "node_modules/@types",
+      "node_modules/@noonly-net",
+      "src/@types"
+    ]
+  },
+  "include": [
+    "src"
+  ]
+}

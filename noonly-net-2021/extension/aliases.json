@@ -1,0 +1,89 @@
+{
+  "live.com": [
+    "live.com",
+    "microsoftonline.com",
+    "hotmail.com",
+    "outlook.com",
+    "microsoft.com",
+    "office.com",
+    "office365.com"
+  ],
+  "microsoftonline.com": [
+    "live.com",
+    "microsoftonline.com",
+    "hotmail.com",
+    "outlook.com",
+    "microsoft.com",
+    "office.com",
+    "office365.com"
+  ],
+  "hotmail.com": [
+    "live.com",
+    "microsoftonline.com",
+    "hotmail.com",
+    "outlook.com",
+    "microsoft.com",
+    "office.com",
+    "office365.com"
+  ],
+  "outlook.com": [
+    "live.com",
+    "microsoftonline.com",
+    "hotmail.com",
+    "outlook.com",
+    "microsoft.com",
+    "office.com",
+    "office365.com"
+  ],
+  "microsoft.com": [
+    "live.com",
+    "microsoftonline.com",
+    "hotmail.com",
+    "outlook.com",
+    "microsoft.com",
+    "office.com",
+    "office365.com"
+  ],
+  "office.com": [
+    "live.com",
+    "microsoftonline.com",
+    "hotmail.com",
+    "outlook.com",
+    "microsoft.com",
+    "office.com",
+    "office365.com"
+  ],
+  "office365.com": [
+    "live.com",
+    "microsoftonline.com",
+    "hotmail.com",
+    "outlook.com",
+    "microsoft.com",
+    "office.com",
+    "office365.com"
+  ],
+  "store.steampowered.com": [
+    "store.steampowered.com",
+    "help.steampowered.com",
+    "steampowered.com",
+    "steamcommunity.com"
+  ],
+  "help.steampowered.com": [
+    "store.steampowered.com",
+    "help.steampowered.com",
+    "steampowered.com",
+    "steamcommunity.com"
+  ],
+  "steampowered.com": [
+    "store.steampowered.com",
+    "help.steampowered.com",
+    "steampowered.com",
+    "steamcommunity.com"
+  ],
+  "steamcommunity.com": [
+    "store.steampowered.com",
+    "help.steampowered.com",
+    "steampowered.com",
+    "steamcommunity.com"
+  ]
+}

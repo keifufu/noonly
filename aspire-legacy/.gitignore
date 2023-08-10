@@ -1,0 +1,15 @@
+/backend/package-lock.json
+/backend/node_modules
+/backend/.env
+
+/frontend/package-lock.json
+/frontend/node_modules
+/frontend/.env
+/frontend/build
+
+/extension/package-lock.json
+/extension/node_modules
+/extension/.env
+/extension/build
+/extension/build.pem
+/extension/build.crx

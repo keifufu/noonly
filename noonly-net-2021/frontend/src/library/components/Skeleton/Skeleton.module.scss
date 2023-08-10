@@ -1,0 +1,58 @@
+@import '../../../styles/common.scss';
+
+// animation-snm94m
+@keyframes skeleton-animation-light {
+	from {
+		border-color:#EDF2F7;
+		background:#EDF2F7;
+	}
+	to {
+		border-color:#A0AEC0;
+		background:#A0AEC0;
+	}
+}
+
+// animation-1t6jf1h
+@keyframes skeleton-animation-dark {
+	from {
+		border-color:#1A202C;
+		background:#1A202C;
+	}
+	to {
+		border-color:#4A5568;
+		background:#4A5568;
+	}
+}
+
+.root {
+	transition: all linear 1s;
+}
+
+.skeleton {
+	opacity: 0.7;
+	box-shadow: none;
+	cursor: default;
+	color: transparent;
+	pointer-events: none;
+	user-select: none;
+
+	&>* {
+		opacity: 0;
+	}
+
+	@include light {
+		border-color: rgb(237, 242, 247);
+		background: rgb(160, 174, 192) none repeat scroll 0% 0% padding-box;
+		animation: skeleton-animation-light 0.8s linear 0s infinite alternate none running;
+		border-color: rgb(237, 242, 247);
+		background: rgb(160, 174, 192) none repeat scroll 0% 0% padding-box;
+	}
+
+	@include dark {
+		border-color: rgb(26, 32, 44);
+		background: rgb(74, 85, 104) none repeat scroll 0% 0% padding-box;
+		animation: skeleton-animation-dark 0.8s linear 0s infinite alternate none running;
+		border-color: #1A202C;
+		background: #4A5568;
+	}
+}

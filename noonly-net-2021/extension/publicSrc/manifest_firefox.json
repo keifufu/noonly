@@ -1,0 +1,41 @@
+{
+	"manifest_version": 2,
+	"name": "Noonly Password Manager",
+	"description": "Browser Extension for the Noonly.net Password Manager",
+	"version": "1.5",
+	"browser_action": {
+		"default_popup": "index.html",
+		"default_title": "Noonly"
+	},
+	"icons": {
+		"192": "logo192.png",
+		"512": "logo512.png"
+	},
+	"content_scripts": [
+		{
+			"matches": [ "http://*/*", "https://*/*" ],
+			"js": ["content.js"],
+			"css": ["app.css"],
+			"all_frames": true
+		}
+	],
+	"applications": {
+		"gecko": {
+			"id": "extension@noonly.net",
+			"update_url": "https://noonly.net/public/firefox/update.json"
+		}
+	},
+	"content_security_policy": "script-src 'self'; object-src 'none'",
+	"web_accessible_resources": [
+		"roboto400.woff2",
+		"roboto500.woff2"
+	],
+	"background": {
+		"scripts": ["sw.js"],
+		"persistent": true
+	},
+	"permissions": [
+		"storage",
+		"alarms"
+	]
+}

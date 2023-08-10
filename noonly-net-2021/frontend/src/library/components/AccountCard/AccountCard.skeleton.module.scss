@@ -1,0 +1,8 @@
+@import '../../../styles/radius.scss';
+@import '../../../styles/space.scss';
+
+.skeleton {
+	border-radius: $rd-lg;
+	padding-top: $space-8;
+	padding-bottom: $space-8;
+}

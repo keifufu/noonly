@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": "./",
+    "strict": true,
+    "target": "ES6",
+    "lib": ["ESNext", "DOM"],
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "src"
+  ]
+}

@@ -1,0 +1,95 @@
+@import './colors.scss';
+@import './lineHeights.scss';
+
+// @mixin light() {
+//   @media (prefers-color-scheme: light) {
+//     @at-root #{selector-nest(':root:not([data-theme=light]):not([data-theme=dark])', &)} {
+//       @content;
+//     }
+//   }
+//   @at-root #{selector-nest(':root[data-theme=light]', &)} {
+//     @content;
+//   }
+// }
+
+// @mixin dark() {
+//   @media (prefers-color-scheme: dark) {
+//     @at-root #{selector-nest(':root:not([data-theme=light]):not([data-theme=dark])', &)} {
+//       @content;
+//     }
+//   }
+//   @at-root #{selector-nest(':root[data-theme=dark]', &)} {
+//     @content;
+//   }
+// }
+
+@mixin light() {
+  @content
+}
+
+@mixin dark() {
+  @content
+}
+
+@mixin mobile() {
+  @media (max-width: 30em) {
+    @content;
+  }
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: $lineHeights-base;
+
+  @include light {
+    color: $gray-700;
+  }
+
+  @include dark {
+    color: rgba(255, 255, 255, 0.92)
+  }
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-row {
+  @include flex-center;
+  flex-direction: row;
+}
+
+@mixin flex-column {
+  @include flex-center;
+  flex-direction: column;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+
+.flex-center {
+  @include flex-center;
+}
+
+.flex-row {
+  @include flex-row;
+}
+
+.flex-column {
+  @include flex-column();
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-0 {
+  flex: 0;
+}

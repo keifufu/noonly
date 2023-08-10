@@ -1,0 +1,72 @@
+
+> @noonly-net/backend@0.1.2 start:prod
+> node dist/index.js
+
+Connected to MongoDB
+[HTTP] Now listening on port 333
+^C^C
+> @noonly-net/backend@0.1.2 start:prod
+> node dist/index.js
+
+Connected to MongoDB
+[HTTP] Now listening on port 333
+^C^C
+> @noonly-net/backend@0.1.2 start:prod
+> node dist/index.js
+
+Connected to MongoDB
+[HTTP] Now listening on port 333
+^C^C
+> @noonly-net/backend@0.1.2 start:prod
+> node dist/index.js
+
+Connected to MongoDB
+[HTTP] Now listening on port 333
+^C^C
+> @noonly-net/backend@0.1.2 start:prod
+> node dist/index.js
+
+Connected to MongoDB
+[HTTP] Now listening on port 333
+
+> @noonly-net/backend@0.1.2 start:prod
+> node dist/index.js
+
+Connected to MongoDB
+[HTTP] Now listening on port 333
+node:internal/fs/utils:345
+    throw err;
+    ^
+
+Error: ENOENT: no such file or directory, stat 'C:\Noonly\hMailServer\Data\noonly.net\nrf2yft19hxywob69b3ab\23\{23F3BDA5-1BDC-493A-AFE0-CFCDF72B440F}.eml'
+    at Object.statSync (node:fs:1551:3)
+    at C:\Noonly\backend\dist\library\common\MailFetcher.js:82:30
+    at Array.forEach (<anonymous>)
+    at MailFetcher.readRecursive (C:\Noonly\backend\dist\library\common\MailFetcher.js:79:15)
+    at C:\Noonly\backend\dist\library\common\MailFetcher.js:83:23
+    at Array.forEach (<anonymous>)
+    at MailFetcher.readRecursive (C:\Noonly\backend\dist\library\common\MailFetcher.js:79:15)
+    at MailFetcher.fetch (C:\Noonly\backend\dist\library\common\MailFetcher.js:74:14)
+    at listOnTimeout (node:internal/timers:559:17)
+    at processTimers (node:internal/timers:502:7) {
+  errno: -4058,
+  syscall: 'stat',
+  code: 'ENOENT',
+  path: 'C:\\Noonly\\hMailServer\\Data\\noonly.net\\nrf2yft19hxywob69b3ab\\23\\{23F3BDA5-1BDC-493A-AFE0-CFCDF72B440F}.eml'
+}
+
+> @noonly-net/backend@0.1.2 start:prod
+> node dist/index.js
+
+Connected to MongoDB
+[HTTP] Now listening on port 333
+
+> @noonly-net/backend@0.1.2 start:prod
+> node dist/index.js
+
+Connected to MongoDB
+[HTTP] Now listening on port 333
+^C^C
+> @noonly-net/backend@0.1.2 start:prod
+> node dist/index.js
+

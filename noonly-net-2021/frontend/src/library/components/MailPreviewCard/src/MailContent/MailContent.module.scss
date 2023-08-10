@@ -1,0 +1,117 @@
+@import 'styles/space.scss';
+@import 'styles/common.scss';
+@import 'styles/fontSizes.scss';
+@import 'styles/fontWeights.scss';
+@import 'styles/lineHeights.scss';
+@import 'styles/colors.scss';
+@import 'styles/letterSpacing.scss';
+
+.root-mobile {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	margin-left: $space-4;
+	flex: 1;
+}
+
+@mixin text {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.sender-date-wrapper-mobile {
+	display: flex;
+	justify-content: space-between;
+}
+
+.sender {
+	@include text;
+	margin-bottom: -0.2rem;
+	color: $gray-100;
+  flex-basis: 20%;
+}
+
+.sender-unread {
+	color: white;
+	font-weight: $fontWeights-semibold;
+	letter-spacing: $letterSpacing-wide;
+}
+
+.sender-mobile {
+	@include text;
+	margin-bottom: -0.2rem;
+	color: $gray-400;
+  flex-shrink: 999;
+}
+
+.sender-mobile-unread {
+	color: white;
+	font-weight: $fontWeights-semibold;
+	letter-spacing: $letterSpacing-wide;
+}
+
+.date {
+	font-size: $fontSizes-sm;
+	color: $gray-100;
+  margin-left: auto;
+  margin-top: 0.1rem;
+}
+
+.date-unread {
+	color: white;
+	font-weight: $fontWeights-semibold;
+	letter-spacing: $letterSpacing-wide;
+}
+
+.date-mobile {
+	font-size: $fontSizes-sm;
+	color: $gray-400;
+}
+
+.date-mobile-unread {
+	color: white;
+	font-weight: $fontWeights-semibold;
+	letter-spacing: $letterSpacing-wide;
+}
+
+.subject {
+  @include text;
+	color: $gray-100;
+  align-self: center;
+  flex-basis: 75%;
+}
+
+.subject-unread {
+	color: white;
+	font-weight: $fontWeights-semibold;
+	letter-spacing: $letterSpacing-wide;
+}
+
+.subject-mobile {
+	@include text;
+	font-size: 0.9rem;
+	margin-top: -0.05rem;
+	color: $gray-400;
+}
+
+.subject-mobile-unread {
+	color: white;
+	font-weight: $fontWeights-semibold;
+	letter-spacing: $letterSpacing-wide;
+}
+
+.content-mobile {
+	@include text;
+	font-size: 0.9rem;
+	font-size: $fontSizes-sm;
+	color: $gray-400;
+	margin-top: -0.2rem;
+}
+
+.root {
+	display: flex;
+	width: 100%;
+	margin-left: $space-2;
+	flex: 1;
+}

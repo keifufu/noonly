@@ -1,0 +1,27 @@
+{
+  "name": "Noonly",
+  "short_name": "Noonly",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "192x192",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "theme_color": "#1a202c",
+  "background_color": "#1a202c",
+  "display": "standalone",
+  "orientation": "portrait"
+}

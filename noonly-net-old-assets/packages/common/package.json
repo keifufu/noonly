@@ -1,0 +1,17 @@
+{
+  "name": "@noonly-net/common",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "tsc -w"
+  },
+  "dependencies": {
+    "react": "^17.0.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.4"
+  }
+}

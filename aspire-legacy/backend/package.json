@@ -1,0 +1,37 @@
+{
+	"name": "backend",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"archiver": "^5.2.0",
+		"body-parser": "^1.19.0",
+		"connect-multiparty": "^2.2.0",
+		"cors": "^2.8.5",
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1",
+		"got": "^11.8.1",
+		"image-size": "^0.9.3",
+		"mailparser": "^3.0.1",
+		"metascraper": "^5.16.16",
+		"metascraper-author": "^5.16.16",
+		"metascraper-clearbit": "^5.16.16",
+		"metascraper-description": "^5.16.16",
+		"metascraper-image": "^5.16.16",
+		"metascraper-logo": "^5.16.16",
+		"metascraper-publisher": "^5.16.16",
+		"metascraper-soundcloud": "^5.16.16",
+		"metascraper-spotify": "^5.16.16",
+		"metascraper-title": "^5.16.16",
+		"metascraper-video": "^5.16.16",
+		"nodemailer": "^6.4.17",
+		"promise-mysql": "^5.0.2",
+		"socket.io": "^3.1.0",
+		"uuid": "^8.3.2"
+	}
+}

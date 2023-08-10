@@ -1,0 +1,9 @@
+@import 'styles/colors.scss';
+@import 'styles/space.scss';
+
+.root {
+	white-space: nowrap;
+	color: $gray-300;
+	margin-right: $space-1;
+	margin-left: $space-3;
+}

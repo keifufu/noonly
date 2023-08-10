@@ -1,0 +1,15 @@
+{
+  "name": "noonly-backup",
+  "version": "1.0.0",
+  "description": "A collection of scripts to be run by \r   - The noonly server\r   - A backup server\r to backup noonly-related data to another server.",
+  "main": "index.js",
+  "scripts": {
+    "pass": "node src/pass.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

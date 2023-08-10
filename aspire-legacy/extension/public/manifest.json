@@ -1,0 +1,30 @@
+{
+	"manifest_version": 2,
+	"name": "Aspire Extension",
+	"description": "Chromium Extension for Aspire.icu",
+	"version": "0.0.1",
+	"browser_action": {
+		"default_popup": "index.html",
+		"default_title": "Aspire"
+	},
+	"icons": {
+		"192": "logo192.png",
+		"512": "logo512.png"
+	},
+	"content_scripts": [
+        {
+        "matches": [ "http://*/*", "https://*/*" ],
+        "js": ["content.js"]
+        }
+    ],
+	"background": {
+		"scripts": ["background.js"]
+	},
+	"content_security_policy": "script-src 'self' 'sha256-4YZ33jXj4ktCP/P27CgcSh72Wa9qK2ZHMx7PDLsCVh0='; object-src 'self'",  "permissions": [
+		"contextMenus",
+		"tabs",
+		"activeTab",
+		"<all_urls>",
+		"storage"
+	]
+}

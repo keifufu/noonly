@@ -1,0 +1,39 @@
+{
+  "name": "@noonly-net/root",
+  "private": true,
+  "scripts": {
+    "bootstrap": "npx lerna bootstrap",
+    "reset": "find . -type d -name node_modules | xargs rm -rf && rm -rf yarn.lock",
+    "backend:start": "lerna --scope=backend run start:dev --stream --",
+    "backend:docker": "lerna --scope=backend run docker --stream --",
+    "native:start": "lerna --scope=mobile run start --stream --",
+    "native:android": "lerna --scope=mobile run android --stream --",
+    "native:android:release": "lerna --scope=mobile run android:release --stream --",
+    "native:ios": "lerna --scope=mobile run ios --stream --",
+    "common": "lerna --scope=@noonly-net/common run build --stream --",
+    "web": "yarn common & lerna --scope=@noonly-net/web run start --stream --",
+    "ext": "yarn common & lerna --scope=@noonly-net/browser-ext run start --stream --",
+    "serve-web": "lerna --scope=@noonly-net/web run build --stream -- && serve ./packages/web/build",
+    "serve-ext": "lerna --scope=@noonly-net/browser-ext run build --stream -- && serve ./packages/browser-ext/build",
+    "build-android": "lerna --scope=@noonly-net/mobile run build-android --stream --",
+    "build-ios": "lerna --scope=@noonly-net/mobile run build-ios --stream --"
+  },
+  "dependencies": {
+    "metro-config": "0.56.0"
+  },
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "apps/*"
+    ],
+    "nohoist": [
+      "**/react-native",
+      "**/react-native/**",
+      "**/expo",
+      "**/expo/**"
+    ]
+  }
+}

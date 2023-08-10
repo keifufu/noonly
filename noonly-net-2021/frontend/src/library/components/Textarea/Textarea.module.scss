@@ -1,0 +1,70 @@
+@import '../../../styles/colors.scss';
+@import '../../../styles/radius.scss';
+@import '../../../styles/space.scss';
+@import '../../../styles/lineHeights.scss';
+@import '../../../styles/sizes.scss';
+@import '../../../styles/fontSizes.scss';
+@import '../../../styles/transition.scss';
+@import '../../../styles/common.scss';
+
+.textarea {
+	width: 100%;
+	min-width: 0px;
+	outline: transparent solid 2px;
+	outline-offset: 2px;
+	position: relative;
+	appearance: none;
+	transition-property: $transition-property-common;
+	transition-duration: $transition-duration-normal;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	min-height: 80px;
+	line-height: $lineHeights-short;
+	vertical-align: top;
+	font-size: $fontSizes-md;
+	padding-inline-start: $space-4;
+	padding-inline-end: $space-4;
+	height: $sizes-10;
+	border-radius: $rd-md;
+	border-width: 2px;
+	border-style: solid;
+	border-image: initial;
+	border-color: transparent;
+
+
+	@include light {
+		&::placeholder {
+			color: $gray-400;
+		}
+
+		background: $gray-100;
+	
+		&:hover {
+			background: $gray-200;
+		}
+
+		&:focus {
+			background: transparent;
+			border-color: rgb(49, 130, 206);
+		}
+	}
+
+	@include dark {
+		background: $whiteAlpha-50;
+
+		&:hover {
+			background: $whiteAlpha-100;
+		}
+	
+		&:focus {
+			background: transparent;
+			border-color: rgb(99, 179, 237);
+		}
+	}
+
+}
+
+.invalid {
+	box-shadow: rgb(252, 129, 129) 0px 0px 0px 1px;
+	border-color: rgb(252, 129, 129);
+}

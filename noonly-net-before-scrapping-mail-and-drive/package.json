@@ -1,0 +1,11 @@
+{
+  "name": "noonly-net",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "account": "pnpm --filter account dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

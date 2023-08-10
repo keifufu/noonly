@@ -1,0 +1,23 @@
+@import '../../../styles/radius.scss';
+@import '../../../styles/sizes.scss';
+@import '../../../styles/space.scss';
+
+.skeleton {
+	border-radius: $rd-xl;
+	height: $sizes-12;
+	width: $sizes-12;
+	margin-right: $space-4;
+}
+
+.image {
+	border-radius: $rd-xl;
+	width: $sizes-12;
+	height: $sizes-12;
+	margin-right: $space-4;
+	transition: all linear 0.1s;
+	object-fit: cover;
+
+	&:hover {
+		transform: scale(1.05);
+	}
+}

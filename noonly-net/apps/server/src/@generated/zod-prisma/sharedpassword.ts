@@ -1,0 +1,25 @@
+import * as z from "zod"
+
+export const SharedPasswordPrismaModel = z.object({
+  id: z.string(),
+  iconId: z.string().nullish(),
+  ownerId: z.string(),
+  ownerUsername: z.string(),
+  sharedUserId: z.string(),
+  sharedUserUsername: z.string(),
+  inviteKey: z.string().nullish(),
+  ownerKey_e: z.string(),
+  sharedUserKey_e: z.string().nullish(),
+  inviteMessage_e: z.string().nullish(),
+  shareNote: z.boolean(),
+  name_e: z.string().nullish(),
+  isPinned: z.boolean(),
+  isAutofillEnabled: z.boolean(),
+  categoryId: z.string().nullish(),
+  data_e: z.string(),
+  ownerNote_e: z.string().nullish(),
+  note_e: z.string().nullish(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  passwordId: z.string(),
+})

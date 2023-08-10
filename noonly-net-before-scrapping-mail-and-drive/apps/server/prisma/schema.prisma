@@ -1,0 +1,517 @@
+// Some relations will seem nonsensical due to one-way relations not being supported yet.
+// Refer to https://github.com/prisma/prisma/issues/2018 for more information.
+// Relation fields deemed unnessecary will be commented with // @issue #2018
+// They will also be prefixed 'ZDONTUSE_' to prevent accidental use,
+// starting with 'Z' to be at the bottom of the list in autocompletion.
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["extendedWhereUnique"]
+}
+
+generator zod {
+  provider      = "zod-prisma"
+  output        = "../src/@generated/zod-prisma"
+  relationModel = false
+  modelSuffix   = "PrismaModel"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("PRISMA_DATABASE_URL")
+}
+
+// ==================== START USER & AUTH ====================
+
+model User {
+  id                     String        @id @default(uuid())
+  username               String        @unique
+  hashedPassword         String
+  encKeyStr_e            String
+  sessions               Session[]
+  phoneNumber            String?       @unique
+  isPhoneNumberConfirmed Boolean       @default(false)
+  phoneNumberLastChanged DateTime?
+  mfaSecret              String?
+  mfaBackupCodes         String[]
+  hasMfaEnabled          Boolean       @default(false)
+  tier                   Tier          @default(Free)
+  enableSecurityLogs     Boolean       @default(true)
+  enableAdvancedLogs     Boolean       @default(false) // track location and ip for sessions and security logs
+  securityLogs           SecurityLog[]
+  sendCrashReports       Boolean       @default(true)
+  scheduledDeletion      DateTime?
+  createdAt              DateTime      @default(now())
+  updatedAt              DateTime      @updatedAt
+  // experimental
+  encryptionKey_e        String // The key used for encryption, encrypted by the users password
+  passwordSharingKey     UserKey?
+  // tracking limits (previously used count, but like this we can actually display it to the user)
+  limits                 UserLimits    @relation(fields: [userLimitsId], references: [id])
+  userLimitsId           String        @unique
+}
+
+model UserLimits {
+  id                   String @id @default(uuid())
+  bytesUsed            BigInt @default(0)
+  currentPasswords     Int    @default(0)
+  currentCustomIcons   Int    @default(0)
+  currentSubscriptions Int    @default(0)
+  ZDONTUSE_User        User?
+}
+
+model UserKey {
+  id           String   @id @default(uuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id])
+  privateKey_e String
+  publicKey    String   @unique
+  createdAt    DateTime @default(now())
+}
+
+model SecurityLog {
+  id                String   @id @default(uuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id])
+  success           Boolean
+  event             String
+  ipAddress         String?
+  estimatedLocation String?
+  createdAt         DateTime @default(now())
+}
+
+model Session {
+  id                 String   @id @default(uuid())
+  userId             String
+  user               User     @relation(fields: [userId], references: [id])
+  app                String
+  ipAddress          String?
+  estimatedLocation  String?
+  hashedRefreshToken String   @unique
+  isMfaAuthenticated Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model UsedPhoneNumber {
+  id          String   @id @default(uuid())
+  phoneNumber String   @unique
+  createdAt   DateTime @default(now())
+}
+
+enum Tier {
+  Free
+  MailPlus
+  PasswordsPlus
+  SubscriptionsPlus
+  DrivePlus
+  Unlimited
+  Admin
+}
+
+// ==================== END USER & AUTH ====================
+
+// ==================== START MAIL ====================
+
+model MailSender {
+  id     String @id @default(uuid())
+  userId String
+  email  String @unique
+
+  bundleMail Boolean @default(false)
+
+  pushNotifications   Boolean    @default(false)
+  isInScreener        Boolean    @default(true) // if the user still has to screen them??
+  deliverMailToFolder MailFolder @relation(fields: [mailFolderId], references: [id])
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  mailFolderId String
+  Mail         Mail[]
+}
+
+model MailAddress {
+  id        String   @id @default(uuid())
+  userId    String
+  email     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Mail      Mail[]
+}
+
+// Mail no encrypt because search :)
+
+model Mail {
+  id            String           @id @default(uuid())
+  userId        String
+  sender        MailSender       @relation(fields: [senderId], references: [id])
+  senderId      String
+  messageId     String
+  inReplyTo     String? // IMPORTANT: set this to null if the replyTo is not in the database
+  // ^ because when we fetch mail, we search for replyToId: null, so we only get top-level mail
+  recipients    String // <recipient@domain.com>(name),<secondrecipient@domain.com>(name)
+  cc            String?
+  bcc           String?
+  toAddress     MailAddress      @relation(fields: [toAddressId], references: [id])
+  toAddressId   String
+  subject       String
+  customSubject String?
+  html          String
+  text          String
+  previewText   String
+  attachments   MailAttachment[]
+  isRead        Boolean          @default(false)
+  isStarred     Boolean          @default(false)
+  isTrashed     Boolean          @default(false)
+  trashedAt     DateTime?
+  folder        MailFolder       @relation(fields: [mailFolderId], references: [id])
+  mailFolderId  String
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  // for uh yes quickest sorting?, not optional, if no reply its just the normal receivedAt date
+  // this is the date we actually sort by
+  // just make sure to always update the first one in the thread, not just the direct parent?
+  newestReplyDate DateTime
+}
+
+model MailFolder {
+  id         String       @id @default(uuid())
+  userId     String
+  name       String
+  position   Int          @default(0)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  MailSender MailSender[]
+  Mail       Mail[]
+}
+
+model MailAttachment {
+  id     String @id @default(uuid())
+  userId String
+  mail   Mail   @relation(fields: [mailId], references: [id])
+  mailId String
+  r2_key String
+}
+
+// ==================== END MAIL ====================
+
+// ==================== START PASSWORDS ====================
+
+// TODO: perhaps add attachments in the future. This is not a priority though
+// and can be implemented at a later date.
+// They should be small enough to be encrypted client side? perhaps?
+// ALso gotta think about how sharing will work with them.
+model Password {
+  id                   String              @id @default(uuid())
+  userId               String
+  iconId               String?
+  isPinned             Boolean             @default(false)
+  isDeleted            Boolean             @default(false)
+  deletedAt            DateTime?
+  snapshotOfPasswordId String?
+  changelogs           PasswordChangelog[]
+  sharedPasswords      SharedPassword[] // Only used to get information about shared users
+  sharedCount          Int                 @default(0) // So client knows if it needs to update shared passwords, and to display a shared icon
+  isAutofillEnabled    Boolean             @default(true)
+  icon                 PasswordIcon?       @relation(fields: [iconId], references: [id], onDelete: SetNull)
+  category             PasswordCategory?   @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  categoryId           String?
+  data_e               String // Previously name, site, username, email and password_e, mfaSecret_e. Now encrypted JSON to decrease decrypt operations
+  note_e               String? // Not included with data_e, because it isn't shared with users by default. (Also so we don't have to decrypt it all the time)
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+}
+
+// Terminology:
+// owner = the user who owns the password
+// sharedUser = the user who the password is shared with
+model SharedPassword {
+  id                 String            @id @default(uuid())
+  icon               PasswordIcon?     @relation(fields: [iconId], references: [id], onDelete: SetNull)
+  iconId             String?
+  // Encryption keys and user information
+  ownerId            String
+  ownerUsername      String
+  sharedUserId       String
+  sharedUserUsername String
+  inviteKey          String? // A key generated by the owner to use for data_e, encrypted with the sharedUsers passwordSharingKey
+  ownerKey_e         String // the inviteKey encrypted with the owners encryptionKey
+  sharedUserKey_e    String? // the invitekey encrypted with the sharedUsers encryptionKey
+  inviteMessage_e    String? // User-defined message, encrypted with the sharedUsers passwordSharingKey
+  shareNote          Boolean           @default(false)
+  // Data editable by the shared user
+  name_e             String?
+  isPinned           Boolean           @default(false)
+  isAutofillEnabled  Boolean           @default(true)
+  category           PasswordCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  categoryId         String?
+  // Encrypted shared data, only editable by the owner
+  data_e             String
+  ownerNote_e        String? // Owners note, if shareNote is true
+  note_e             String? // Personal note for the shared user
+  // Misc
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  // We actually do use passwordId
+  passwordId         String
+  ZDONTUSE_password  Password?         @relation(fields: [passwordId], references: [id])
+}
+
+model PasswordChangelog {
+  id                  String   @id @default(uuid())
+  message             String
+  snapshotId          String?
+  createdAt           DateTime @default(now())
+  // @issue #2018
+  ZDONTUSE_password   Password @relation(fields: [ZDONTUSE_passwordId], references: [id], onDelete: Cascade)
+  ZDONTUSE_passwordId String
+}
+
+model PasswordCategory {
+  id                      String           @id @default(uuid())
+  userId                  String
+  name_e                  String
+  order                   Int
+  createdAt               DateTime         @default(now())
+  updatedAt               DateTime         @updatedAt
+  // @issue #2018
+  ZDONTUSE_password       Password[]
+  ZDONTUSE_sharedPassword SharedPassword[]
+}
+
+model PasswordIcon {
+  id                      String           @id @default(uuid())
+  userId                  String
+  data                    Bytes
+  createdAt               DateTime         @default(now())
+  // @issue #2018
+  ZDONTUSE_password       Password[]
+  ZDONTUSE_sharedPassword SharedPassword[]
+}
+
+// ==================== END PASSWORDS ====================
+
+// ==================== START SUBSCRIPTIONS ====================
+
+// TODO: Perhaps also add attachments to Subscritions in the future.
+// Same as with Passwords, this is no priority.
+model Subscription {
+  id     String @id @default(uuid())
+  data_e String // name, category, website, 
+
+  // todo: icon (same as password icon), make them share the same table
+
+  amount        Float
+  currency      String
+  billingPeriod SubscriptionBillingPeriod
+  paymentDate   DateTime?
+  // Misc
+  createdAt     DateTime                  @default(now())
+  updatedAt     DateTime                  @updatedAt
+}
+
+enum SubscriptionBillingPeriod {
+  MONTHLY
+  YEARLY
+}
+
+// ==================== END SUBSCRIPTIONS ====================
+
+// ==================== START AUTOFILL ====================
+
+model AutofillCreditCard {
+  id                String   @id @default(uuid())
+  userId            String
+  name_e            String?
+  cardholderName_e  String
+  cardNumber_e      String
+  securityCode_e    String
+  expirationMonth_e String
+  expirationYear_e  String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model AutofillAddress {
+  id        String   @id @default(uuid())
+  userId    String
+  name_e    String?
+  street_e  String?
+  city_e    String?
+  state_e   String?
+  zipCode_e String?
+  country_e String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AutofillPersonalInfo {
+  id           String                      @id @default(uuid())
+  userId       String
+  name_e       String?
+  firstName_e  String?
+  lastName_e   String?
+  email_e      String?
+  phone_e      String?
+  gender       AutofillPersonalInfoGender?
+  birthDay_e   String?
+  birthMonth_e String?
+  birthYear_e  String?
+  createdAt    DateTime                    @default(now())
+  updatedAt    DateTime                    @updatedAt
+}
+
+enum AutofillPersonalInfoGender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+// ==================== END AUTOFILL ====================
+
+// ==================== START Drive ====================
+
+model DriveFile {
+  id                String               @id @default(uuid())
+  r2_key            String               @unique // Not using the ID for this because we might need to change the r2 name in the future (public images, database breach)
+  r2_inPublicBucket Boolean              @default(false)
+  r2_uploadComplete Boolean              @default(false)
+  userId            String
+  name              String
+  parentFolderId    String?
+  size              Int
+  isDeleted         Boolean              @default(false)
+  deletedAt         DateTime?
+  changelogs        DriveFileChangelog[]
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  hasLink           Boolean              @default(false)
+  link              DriveLink?           @relation(fields: [linkId], references: [id])
+  linkId            String?              @unique()
+
+  @@unique([userId, name, parentFolderId])
+}
+
+model DriveFileChangelog {
+  id              String     @id @default(uuid())
+  username        String // User who did the change, we don't allow username changes so why dont we use this as the id?
+  message         String
+  r2_snapshotKey  String? // Drive files don't need a snapshot of the database object like passwords, they need it for the r2 file
+  r2_snapshotSize Int?
+  name            String? // File extension could have been changed since then
+  DriveFile       DriveFile? @relation(fields: [DriveFileId], references: [id])
+  DriveFileId     String?
+  createdAt       DateTime   @default(now())
+}
+
+model DriveFolder {
+  id             String       @id @default(uuid())
+  userId         String
+  name           String
+  parentFolder   DriveFolder? @relation(name: "parent", fields: [parentFolderId], references: [id])
+  parentFolderId String?
+  size           Int          @default(0)
+  isDeleted      Boolean      @default(false)
+  deletedAt      DateTime?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  // needed because otherwise we gotta bother counting relations or so?
+  sharedCount Int @default(0)
+
+  shares  DriveFolderShare[]
+  hasLink Boolean            @default(false)
+  link    DriveLink?         @relation(fields: [linkId], references: [id])
+  linkId  String?            @unique()
+
+  childrenFolders DriveFolder[] @relation(name: "parent")
+
+  @@unique([userId, name, parentFolderId])
+}
+
+model DriveFolderShare {
+  id            String      @id @default(uuid())
+  folder        DriveFolder @relation(fields: [DriveFolderId], references: [id])
+  DriveFolderId String
+  ownerId       String
+  sharedUserId  String
+
+  isPending Boolean @default(true)
+  message   String?
+
+  permission SharedDriveFolderPermission
+  createdAt  DateTime                    @default(now())
+  updatedAt  DateTime                    @updatedAt
+}
+
+enum SharedDriveFolderPermission {
+  NONE
+  READ_ONLY
+  READ_WRITE
+}
+
+model DriveLink {
+  id             String    @id @default(uuid())
+  key            String    @unique
+  userId         String
+  hashedPassword String?
+  expirationDate DateTime?
+  maxDownloads   Int?
+  downloads      Int       @default(0)
+
+  file   DriveFile?
+  folder DriveFolder?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  DriveFileId   String?
+  DriveFolderId String?
+}
+
+// ==================== END Drive ====================
+
+// ==================== START URL SHORTENER ====================
+
+model UrlShortener {
+  id                   String                @id @default(uuid())
+  userId               String
+  key                  String                @unique
+  isCustomKey          Boolean
+  expirationDate       DateTime?
+  isTrackingEnabled    Boolean
+  clickCount           Int                   @default(0)
+  clicks               UrlShortenerClick[]
+  maxClicks            Int?
+  showIntermissionPage Boolean               @default(false)
+  destinationUrl       String
+  category             UrlShortenerCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  categoryId           String?
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+}
+
+model UrlShortenerCategory {
+  id           String         @id @default(uuid())
+  userId       String
+  name         String
+  emojiIcon    String?
+  order        Int
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  UrlShortener UrlShortener[] // @issue #2018
+
+  @@unique([userId, name])
+}
+
+model UrlShortenerClick {
+  id             String       @id @default(uuid())
+  urlShortenerId String
+  urlShortener   UrlShortener @relation(fields: [urlShortenerId], references: [id], onDelete: Cascade)
+  ipAddress      String       @default("unknown")
+  location       String       @default("unknown")
+  userAgent      String       @default("unknown")
+  createdAt      DateTime     @default(now())
+}
+
+// ==================== END URL SHORTENER ====================

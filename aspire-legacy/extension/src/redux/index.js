@@ -1,0 +1,1 @@
+export { setSearchInput } from './actions'
